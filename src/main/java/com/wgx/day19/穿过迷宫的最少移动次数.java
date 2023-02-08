@@ -1,12 +1,8 @@
 package com.wgx.day19;
 
-import com.sun.jmx.remote.internal.ArrayQueue;
-import com.wgx.day18.生成平衡数组的方案数;
 
 import java.util.ArrayDeque;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Queue;
 
 /**
  * @author wgx
@@ -25,11 +21,11 @@ public class 穿过迷宫的最少移动次数 {
     }
 
     public static int minimumMoves(int[][] grid) {
-        int n = grid.length;
+        var n = grid.length;
         //dist[i][j][0]蛇尾表示在(i, j)这个位置上水平状态是否走过
         //dist[i][j][1]蛇尾表示在(i, j)这个位置上垂直状态是否走过
         //-1表示没有走过，非-1表示第几步走到这个位置
-        int[][][] dist = new int[n][n][2];
+        var dist = new int[n][n][2];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 Arrays.fill(dist[i][j], -1);
@@ -37,10 +33,10 @@ public class 穿过迷宫的最少移动次数 {
         }
         //蛇尾初始状态，(0, 0)水平
         dist[0][0][0] = 0;
-        Queue<int[]> queue = new ArrayDeque<>();
+        var queue = new ArrayDeque<int[]>();
         queue.offer(new int[]{0, 0, 0});
         while (!queue.isEmpty()) {
-            int[] poll = queue.poll();
+            var poll = queue.poll();
             int x = poll[0], y = poll[1], status = poll[2];
             //水平状态
             if (status == 0) {
