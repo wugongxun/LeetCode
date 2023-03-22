@@ -1,5 +1,7 @@
 package com.wgx.day26;
 
+import java.util.Arrays;
+
 /**
  * @author wgx
  * @since 2023/2/28 10:28
@@ -10,24 +12,22 @@ package com.wgx.day26;
  */
 public class 最长递增子序列 {
     public static void main(String[] args) {
-        System.out.println(lengthOfLIS(new int[]{0, 1, 0, 3, 2, 3}));
+        System.out.println(lengthOfLIS(new int[]{0,1,0,3,2,3}));
     }
 
     public static int lengthOfLIS(int[] nums) {
-        if (nums.length <= 1) {
-            return nums.length;
-        }
-        int[] dp = new int[nums.length];
-        int res = 0;
-        for (int i = 0; i < nums.length; i++) {
-            dp[i] = 1;
-            for (int j = 0; j < i; j++) {
-                if (nums[i] > nums[j]) {
-                    dp[i] = Math.max(dp[i], dp[j] + 1);
-                }
+        int ng = 0;
+        for (var num : nums) {
+            int j = Arrays.binarySearch(nums, 0, ng, num);
+            if (j >= 0) {
+                continue;
             }
-            res = Math.max(res, dp[i]);
+            j = -j - 1;
+            nums[j] = num;
+            if (j == ng) {
+                ++ng;
+            }
         }
-        return res;
+        return ng;
     }
 }
