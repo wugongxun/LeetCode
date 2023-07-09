@@ -29,7 +29,7 @@ public class 三数之和 {
             while (left < right) {
                 int sum = nums[left] + nums[right];
                 if (t == sum) {
-                    res.add(Arrays.asList(nums[i], nums[left], nums[right]));
+                    res.add(List.of(nums[i], nums[left], nums[right]));
                     while (left < right && nums[left] == nums[++left]) {}
                     while (left < right && nums[right] == nums[--right]) {}
                 } else if (t < sum) {
