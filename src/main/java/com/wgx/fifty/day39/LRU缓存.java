@@ -1,7 +1,6 @@
 package com.wgx.fifty.day39;
 
-import java.util.Iterator;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -11,53 +10,95 @@ import java.util.Map;
 public class LRU缓存 {
     public static void main(String[] args) {
         LRUCache lruCache = new LRUCache(2);
-//        lruCache.put(1, 1);
-//        lruCache.put(2, 2);
-//        System.out.println(lruCache.get(1));
-//        lruCache.put(3, 3);
+        lruCache.put(1, 1);
+        lruCache.put(2, 2);
+        System.out.println(lruCache.get(1));
+        lruCache.put(3, 3);
+        System.out.println(lruCache.get(2));
+        lruCache.put(4, 4);
+        System.out.println(lruCache.get(1));
+        System.out.println(lruCache.get(3));
+        System.out.println(lruCache.get(4));
 //        System.out.println(lruCache.get(2));
-//        lruCache.put(4, 4);
+//        lruCache.put(2, 6);
 //        System.out.println(lruCache.get(1));
-//        System.out.println(lruCache.get(3));
-//        System.out.println(lruCache.get(4));
-        System.out.println(lruCache.get(2));
-        lruCache.put(2, 6);
-        System.out.println(lruCache.get(1));
-        lruCache.put(1, 5);
-        lruCache.put(1, 2);
-        System.out.println(lruCache.get(1));
-        System.out.println(lruCache.get(2));
+//        lruCache.put(1, 5);
+//        lruCache.put(1, 2);
+//        System.out.println(lruCache.get(1));
+//        System.out.println(lruCache.get(2));
 
     }
 }
 
 class LRUCache {
+    Map<Integer, LinkedNode> map;
+    int size;
     int capacity;
-    Map<Integer, Integer> map;
+    LinkedNode head, tail;
 
     public LRUCache(int capacity) {
+        this.size = 0;
         this.capacity = capacity;
-        this.map = new LinkedHashMap<>(capacity);
+        this.map = new HashMap<>();
+        head = new LinkedNode();
+        tail = new LinkedNode();
+        head.next = tail;
+        tail.prev = head;
     }
 
     public int get(int key) {
-        if (map.containsKey(key)) {
-            int val = map.get(key);
-            map.remove(key);
-            map.put(key, val);
-            return val;
+        LinkedNode node = map.get(key);
+        if (node == null) {
+            return -1;
         }
-        return -1;
+        moveToTail(node);
+        return node.value;
     }
 
     public void put(int key, int value) {
-        if (map.containsKey(key)) {
-            map.remove(key);
-        } else if (map.size() >= capacity) {
-            Iterator<Map.Entry<Integer, Integer>> iterator = map.entrySet().iterator();
-            iterator.next();
-            iterator.remove();
+        LinkedNode node = map.get(key);
+        if (node == null) {
+            LinkedNode newNode = new LinkedNode(key, value);
+            map.put(key, newNode);
+            tail.prev.next = newNode;
+            newNode.prev = tail.prev;
+            newNode.next = tail;
+            tail.prev = newNode;
+            ++size;
+            if (size > capacity) {
+                LinkedNode remove = head.next;
+                head.next = remove.next;
+                head.next.prev = head;
+                remove.next = null;
+                remove.prev = null;
+                map.remove(remove.key);
+                --size;
+            }
+        } else {
+            node.value = value;
+            moveToTail(node);
         }
-        map.put(key, value);
+    }
+
+    public void moveToTail(LinkedNode node) {
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+        tail.prev.next = node;
+        node.prev = tail.prev;
+        node.next = tail;
+        tail.prev = node;
+    }
+}
+
+class LinkedNode {
+    int key;
+    int value;
+    LinkedNode prev;
+    LinkedNode next;
+    public LinkedNode() {}
+
+    public LinkedNode(int key, int value) {
+        this.key = key;
+        this.value = value;
     }
 }
