@@ -1,4 +1,4 @@
-package com.wgx.华为OD;
+package com.wgx.笔试.华为OD;
 
 import java.util.ArrayDeque;
 import java.util.Deque;

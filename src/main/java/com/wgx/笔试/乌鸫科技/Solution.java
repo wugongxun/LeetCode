@@ -1,4 +1,4 @@
-package com.wgx;
+package com.wgx.笔试.乌鸫科技;
 
 import java.util.Arrays;
 import java.util.HashSet;
