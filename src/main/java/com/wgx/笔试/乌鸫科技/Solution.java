@@ -1,7 +1,6 @@
 package com.wgx.笔试.乌鸫科技;
 
 import java.util.Arrays;
-import java.util.HashSet;
 
 /**
  * @author wgx
@@ -9,10 +8,10 @@ import java.util.HashSet;
  */
 public class Solution {
     public static void main(String[] args) {
-        test(new int[]{1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 19});
+        solution(new int[]{1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 19});
     }
 
-    public static void test(int[] nums) {
+    public static void solution(int[] nums) {
         int n = nums.length;
         for (int i = 0; i < n; ++i) {
             for (int j = i + 1; j < n; ++j) {
